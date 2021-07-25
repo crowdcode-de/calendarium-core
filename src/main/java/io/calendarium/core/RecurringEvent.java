@@ -22,14 +22,10 @@ public abstract class RecurringEvent implements CalendarEvent{
 
 
     @Override
-    public boolean isDue(LocalDateTime dateTime) {
-        return false;
-    }
+    public abstract boolean isDue(LocalDateTime dateTime);
 
     @Override
-    public boolean isDue(LocalDate date) {
-        return false;
-    }
+    public abstract boolean  isDue(LocalDate date) ;
 
     @Override
     public Precision getPrecision() {

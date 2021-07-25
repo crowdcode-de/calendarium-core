@@ -10,3 +10,10 @@ a temporal context
 ## License
 
 This utility is shipped under Apache License 2.0 
+
+## Usage
+
+### Declaring Events
+
+* see RecurringEventTest
+
