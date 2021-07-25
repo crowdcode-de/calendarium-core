@@ -8,12 +8,10 @@ import java.time.temporal.TemporalUnit;
 
 public class NMonthlyEvent extends RecurringEvent{
 
-    private final int dayOfMonth;
     private final int everyNthMonth;
 
-    public NMonthlyEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, int dayOfMonth, int everyNthMonth) {
+    public NMonthlyEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, int everyNthMonth) {
         super(precision, name, description, created, dueDateTime);
-        this.dayOfMonth = dayOfMonth;
         this.everyNthMonth = everyNthMonth;
     }
 
@@ -27,8 +25,8 @@ public class NMonthlyEvent extends RecurringEvent{
 
         LocalDateTime calcDate = dueDateTime;
 
-        while (calcDate.isBefore(calcDate)|| calcDate.equals(calcDate)) {
-            if (calcDate.isEqual(calcDate)){
+        while (calcDate.isBefore(dateTime)|| calcDate.equals(dateTime)) {
+            if (calcDate.isEqual(dateTime)){
                 return true;
             }
             calcDate = calcDate.plus(everyNthMonth, ChronoUnit.MONTHS);
