@@ -6,13 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import static io.calendarium.core.TestEvents.NOW;
+import static io.calendarium.core.TestEvents.weeklyEvent;
 import static org.junit.jupiter.api.Assertions.*;
-
-import static io.calendarium.core.TestEvents.*;
 
 class CalendariumTest {
 

@@ -3,8 +3,6 @@ package io.calendarium.core;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
 
 public class NMonthlyEvent extends RecurringEvent{
 

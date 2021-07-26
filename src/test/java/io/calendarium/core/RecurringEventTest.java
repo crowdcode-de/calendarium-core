@@ -3,10 +3,6 @@ package io.calendarium.core;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.Calendar;
 
 import static io.calendarium.core.TestEvents.*;
 import static org.junit.jupiter.api.Assertions.*;
