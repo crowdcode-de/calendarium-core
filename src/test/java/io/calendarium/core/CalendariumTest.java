@@ -24,7 +24,7 @@ class CalendariumTest {
 
     @Test
     void createCalendar() {
-        Map<LocalDate, List<CalendarEvent>> result = probe1.createCalendar(LocalDate.now(), LocalDate.now().plus(1, ChronoUnit.YEARS), true);
+        EventMap result = probe1.createCalendar(LocalDate.now(), LocalDate.now().plus(1, ChronoUnit.YEARS), true);
         assertNotNull(result);
         assertNotEquals(0, result.keySet().size());
 
