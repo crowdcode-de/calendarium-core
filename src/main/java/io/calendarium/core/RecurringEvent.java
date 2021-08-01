@@ -3,15 +3,28 @@ package io.calendarium.core;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * Base class of recurring events. A recurring event will recur until the repeatUntil date has been reached
+ */
 public abstract class RecurringEvent implements CalendarEvent{
 
 
-    public RecurringEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime) {
+    /**
+     * Constructor. All Recurring events are treated like value objects.
+     *  @param precision - the precision (date or date/time)
+     * @param name - the name of the event
+     * @param description - a brief description
+     * @param created - creation timestamp
+     * @param dueDateTime - due date
+     * @param repeatUntil - do not recur this event after repeatUntil date(time)
+     */
+    public RecurringEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, LocalDateTime repeatUntil) {
         this.precision = precision;
         this.name = name;
         this.description = description;
         this.created = created;
         this.dueDateTime = dueDateTime;
+        this.repeatUntil = repeatUntil;
     }
 
     private final Precision precision;
@@ -19,6 +32,7 @@ public abstract class RecurringEvent implements CalendarEvent{
     private final String description;
     private final LocalDateTime created;
     private final LocalDateTime dueDateTime;
+    private final LocalDateTime repeatUntil;
 
 
     @Override
@@ -49,5 +63,9 @@ public abstract class RecurringEvent implements CalendarEvent{
 
     public LocalDateTime getDueDateTime() {
         return dueDateTime;
+    }
+
+    public LocalDateTime getRepeatUntil() {
+        return repeatUntil;
     }
 }

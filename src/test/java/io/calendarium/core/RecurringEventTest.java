@@ -36,6 +36,16 @@ class RecurringEventTest {
     }
 
     @Test
+    public void testRepeatUntil(){
+        assertFalse(yearlyEvent.isDue(nextNextYear));
+        assertFalse(halfYearEvent.isDue(nextNextYear));
+        assertFalse(weeklyEvent.isDue(theDayAfterTomorrow));
+        assertFalse(dailyEvent.isDue(theDayAfterTomorrow));
+        assertFalse(halfYearEventSimp.isDue(theDayAfterTomorrow));
+        assertFalse(quartelyEvent.isDue(theDayAfterTomorrow));
+    }
+
+    @Test
     void getPrecision() {
         assertTrue(dailyEvent.getPrecision().equals(CalendarEvent.Precision.DATE));
         assertTrue(weeklyEvent.getPrecision().equals(CalendarEvent.Precision.DATE));

@@ -8,8 +8,13 @@ public class NMonthlyEvent extends RecurringEvent{
 
     private final int everyNthMonth;
 
+    public NMonthlyEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, int everyNthMonth, LocalDateTime repeatUntil) {
+        super(precision, name, description, created, dueDateTime, repeatUntil);
+        this.everyNthMonth = everyNthMonth;
+    }
+
     public NMonthlyEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, int everyNthMonth) {
-        super(precision, name, description, created, dueDateTime);
+        super(precision, name, description, created, dueDateTime, LocalDateTime.MAX);
         this.everyNthMonth = everyNthMonth;
     }
 
@@ -17,7 +22,7 @@ public class NMonthlyEvent extends RecurringEvent{
     public boolean isDue(LocalDateTime dateTime) {
         final LocalDateTime dueDateTime = getDueDateTime();
 
-        if (dueDateTime.getDayOfMonth() != dateTime.getDayOfMonth()) {
+        if (dueDateTime.isAfter(getRepeatUntil()) || dueDateTime.getDayOfMonth() != dateTime.getDayOfMonth()) {
             return false;
         }
 
@@ -54,7 +59,7 @@ public class NMonthlyEvent extends RecurringEvent{
     public boolean isDue(LocalDate date) {
         final LocalDate localDate = getDueDateTime().toLocalDate();
 
-        if (localDate.getDayOfMonth() != date.getDayOfMonth()) {
+        if (getRepeatUntil().toLocalDate().isBefore(date) || localDate.getDayOfMonth() != date.getDayOfMonth()) {
             return false;
         }
 

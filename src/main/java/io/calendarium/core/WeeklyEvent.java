@@ -7,8 +7,13 @@ import java.time.LocalDateTime;
 public class WeeklyEvent extends RecurringEvent{
     private final DayOfWeek dayOfWeek;
 
+    public WeeklyEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, DayOfWeek dayOfWeek, LocalDateTime repeatUntil) {
+        super(precision, name, description, created, dueDateTime, repeatUntil);
+        this.dayOfWeek = dayOfWeek;
+    }
+
     public WeeklyEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, DayOfWeek dayOfWeek) {
-        super(precision, name, description, created, dueDateTime);
+        super(precision, name, description, created, dueDateTime,  LocalDateTime.MAX);
         this.dayOfWeek = dayOfWeek;
     }
 
