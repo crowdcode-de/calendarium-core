@@ -21,8 +21,13 @@ public class NMonthlyEvent extends RecurringEvent{
     @Override
     public boolean isDue(LocalDateTime dateTime) {
         final LocalDateTime dueDateTime = getDueDateTime();
+        int everyNthMonth = this.everyNthMonth;
 
-        if (dueDateTime.isAfter(getRepeatUntil()) || dueDateTime.getDayOfMonth() != dateTime.getDayOfMonth()) {
+        return isNMonthDue(dateTime, dueDateTime, everyNthMonth, getRepeatUntil());
+    }
+
+    public static boolean isNMonthDue(LocalDateTime dateTime, LocalDateTime dueDateTime, int everyNthMonth, LocalDateTime repeatUntil) {
+        if (dueDateTime.isAfter(repeatUntil) || dueDateTime.getDayOfMonth() != dateTime.getDayOfMonth()) {
             return false;
         }
 
@@ -31,6 +36,7 @@ public class NMonthlyEvent extends RecurringEvent{
         while (calcDate.isBefore(dateTime)|| calcDate.equals(dateTime)) {
             if (calcDate.isEqual(dateTime)){
                 return true;
+
             }
             calcDate = calcDate.plus(everyNthMonth, ChronoUnit.MONTHS);
         }
@@ -58,8 +64,14 @@ public class NMonthlyEvent extends RecurringEvent{
     @Override
     public boolean isDue(LocalDate date) {
         final LocalDate localDate = getDueDateTime().toLocalDate();
+        final int everyNthMonth = this.everyNthMonth;
+        final LocalDateTime repeatUntil = getRepeatUntil();
 
-        if (getRepeatUntil().toLocalDate().isBefore(date) || localDate.getDayOfMonth() != date.getDayOfMonth()) {
+        return isNMonthDue(date, localDate, everyNthMonth, repeatUntil);
+    }
+
+    public static boolean isNMonthDue(LocalDate date, LocalDate localDate, int everyNthMonth, LocalDateTime repeatUntil) {
+        if (repeatUntil.toLocalDate().isBefore(date) || localDate.getDayOfMonth() != date.getDayOfMonth()) {
             return false;
         }
 

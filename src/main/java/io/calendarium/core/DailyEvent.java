@@ -15,11 +15,23 @@ public class DailyEvent extends RecurringEvent {
 
     @Override
     public boolean isDue(LocalDateTime dateTime) {
-        return (getDueDateTime().isBefore(dateTime) || getDueDateTime().equals(dateTime)) && dateTime.isBefore(getRepeatUntil());
+        final LocalDateTime dueDateTime = getDueDateTime();
+        final LocalDateTime repeatUntil = getRepeatUntil();
+        return isDailyDue(dateTime, dueDateTime, repeatUntil);
+    }
+
+    public static boolean isDailyDue(LocalDateTime dateTime, LocalDateTime dueDateTime, LocalDateTime repeatUntil) {
+        return (dueDateTime.isBefore(dateTime) || dueDateTime.equals(dateTime)) && dateTime.isBefore(repeatUntil);
     }
 
     @Override
     public boolean isDue(LocalDate date) {
-        return (getDueDateTime().toLocalDate().isBefore(date) || getDueDateTime().toLocalDate().equals(date)) && date.isBefore(getRepeatUntil().toLocalDate());
+        final LocalDate dueDate = getDueDateTime().toLocalDate();
+        final LocalDateTime repeatUntil = getRepeatUntil();
+        return isDailyDue(date, dueDate, repeatUntil);
+    }
+
+    public static boolean isDailyDue(LocalDate date, LocalDate dueDate, LocalDateTime repeatUntil) {
+        return (dueDate.isBefore(date) || dueDate.equals(date)) && date.isBefore(repeatUntil.toLocalDate());
     }
 }

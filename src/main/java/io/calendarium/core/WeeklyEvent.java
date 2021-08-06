@@ -19,15 +19,27 @@ public class WeeklyEvent extends RecurringEvent{
 
     @Override
     public boolean isDue(LocalDateTime dateTime) {
-        return (getDueDateTime().isBefore(dateTime) ||
-                getDueDateTime().equals(dateTime)) &&
+        final LocalDateTime dueDateTime = getDueDateTime();
+        final DayOfWeek dayOfWeek = this.dayOfWeek;
+        return isWeeklyDue(dateTime, dueDateTime, dayOfWeek);
+    }
+
+    public static boolean isWeeklyDue(LocalDateTime dateTime, LocalDateTime dueDateTime, DayOfWeek dayOfWeek) {
+        return (dueDateTime.isBefore(dateTime) ||
+                dueDateTime.equals(dateTime)) &&
                 dateTime.getDayOfWeek().equals(dayOfWeek);
     }
 
     @Override
     public boolean isDue(LocalDate date) {
-        return (getDueDateTime().toLocalDate().isBefore(date) ||
-                getDueDateTime().toLocalDate().equals(date)) &&
+        final LocalDate dueDate = getDueDateTime().toLocalDate();
+        final DayOfWeek dayOfWeek = this.dayOfWeek;
+        return isWeeklyDue(date, dueDate, dayOfWeek);
+    }
+
+    public static boolean isWeeklyDue(LocalDate date, LocalDate dueDate, DayOfWeek dayOfWeek) {
+        return (dueDate.isBefore(date) ||
+                dueDate.equals(date)) &&
                 date.getDayOfWeek().equals(dayOfWeek);
     }
 
