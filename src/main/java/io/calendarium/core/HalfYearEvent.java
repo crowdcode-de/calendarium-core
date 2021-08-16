@@ -2,11 +2,10 @@ package io.calendarium.core;
 
 import java.time.LocalDateTime;
 
-public class HalfYearEvent extends NMonthlyEvent{
-    public HalfYearEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, LocalDateTime repeatUntil) {
-        super(precision, name, description, created, dueDateTime, 6, repeatUntil);
-    }
-    public HalfYearEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime) {
-        super(precision, name, description, created, dueDateTime, 6, LocalDateTime.MAX);
+public interface HalfYearEvent extends NMonthlyEvent{
+
+    @Override
+    default int getEveryNthMonth() {
+        return 6;
     }
 }

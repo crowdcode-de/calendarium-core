@@ -4,64 +4,31 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * Singular event. This is a single event with no recurring
+ * Singular event interface. This is a single event with no recurring
  */
-public class SingularCalendarEvent implements CalendarEvent {
-
-    /**
-     * Constructor
-     *
-     * @param precision - the precision (date or date/time)
-     * @param name - the name of the
-     * @param description - a brief description of the event
-     * @param created - a creation timestamp
-     * @param dueDateTime -  due date
-     */
-    public SingularCalendarEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime) {
-        this.precision = precision;
-        this.name = name;
-        this.description = description;
-        this.created = created;
-        this.dueDateTime = dueDateTime;
-    }
-
-    private final Precision precision;
-    private final String name;
-    private final String description;
-    private final LocalDateTime created;
-    private final LocalDateTime dueDateTime;
+public interface SingularCalendarEvent extends CalendarEvent {
 
     @Override
-    public boolean isDue(LocalDateTime dateTime) {
-        return isDue(dueDateTime, dateTime, precision);
+    default boolean isDue(LocalDateTime dateTime) {
+        return isDue(getDueDateTime(), dateTime, getPrecision());
     }
 
     @Override
-    public boolean isDue(LocalDate date) {
-        return isDue(dueDateTime.toLocalDate(), date, precision);
+    default boolean isDue(LocalDate date) {
+        return isDue(getDueDateTime().toLocalDate(), date, getPrecision());
     }
 
     @Override
-    public Precision getPrecision() {
-        return precision;
-    }
+    Precision getPrecision();
 
     @Override
-    public String getName() {
-        return name;
-    }
+    String getName();
 
     @Override
-    public String getDescription() {
-        return description;
-    }
+    String getDescription();
 
     @Override
-    public LocalDateTime getCreated() {
-        return created;
-    }
+    LocalDateTime getCreated();
 
-    public LocalDateTime getDueDateTime() {
-        return dueDateTime;
-    }
+    LocalDateTime getDueDateTime();
 }

@@ -4,29 +4,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class NMonthlyEvent extends RecurringEvent{
-
-    private final int everyNthMonth;
-
-    public NMonthlyEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, int everyNthMonth, LocalDateTime repeatUntil) {
-        super(precision, name, description, created, dueDateTime, repeatUntil);
-        this.everyNthMonth = everyNthMonth;
-    }
-
-    public NMonthlyEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, int everyNthMonth) {
-        super(precision, name, description, created, dueDateTime, LocalDateTime.MAX);
-        this.everyNthMonth = everyNthMonth;
-    }
+public interface NMonthlyEvent extends RecurringEvent{
 
     @Override
-    public boolean isDue(LocalDateTime dateTime) {
+    default boolean isDue(LocalDateTime dateTime) {
         final LocalDateTime dueDateTime = getDueDateTime();
-        int everyNthMonth = this.everyNthMonth;
+        int everyNthMonth = getEveryNthMonth();
 
         return isNMonthDue(dateTime, dueDateTime, everyNthMonth, getRepeatUntil());
     }
 
-    public static boolean isNMonthDue(LocalDateTime dateTime, LocalDateTime dueDateTime, int everyNthMonth, LocalDateTime repeatUntil) {
+    int getEveryNthMonth();
+
+    static boolean isNMonthDue(LocalDateTime dateTime, LocalDateTime dueDateTime, int everyNthMonth, LocalDateTime repeatUntil) {
         if (dueDateTime.isAfter(repeatUntil) || dueDateTime.getDayOfMonth() != dateTime.getDayOfMonth()) {
             return false;
         }
@@ -62,15 +52,15 @@ public class NMonthlyEvent extends RecurringEvent{
      *
      */
     @Override
-    public boolean isDue(LocalDate date) {
+    default boolean isDue(LocalDate date) {
         final LocalDate localDate = getDueDateTime().toLocalDate();
-        final int everyNthMonth = this.everyNthMonth;
+        final int everyNthMonth = getEveryNthMonth();
         final LocalDateTime repeatUntil = getRepeatUntil();
 
         return isNMonthDue(date, localDate, everyNthMonth, repeatUntil);
     }
 
-    public static boolean isNMonthDue(LocalDate date, LocalDate localDate, int everyNthMonth, LocalDateTime repeatUntil) {
+    static boolean isNMonthDue(LocalDate date, LocalDate localDate, int everyNthMonth, LocalDateTime repeatUntil) {
         if (repeatUntil.toLocalDate().isBefore(date) || localDate.getDayOfMonth() != date.getDayOfMonth()) {
             return false;
         }

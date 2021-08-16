@@ -4,68 +4,29 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * Base class of recurring events. A recurring event will recur until the repeatUntil date has been reached
+ * Base interface of recurring events. A recurring event will recur until the repeatUntil date has been reached
  */
-public abstract class RecurringEvent implements CalendarEvent{
-
-
-    /**
-     * Constructor. All Recurring events are treated like value objects.
-     *  @param precision - the precision (date or date/time)
-     * @param name - the name of the event
-     * @param description - a brief description
-     * @param created - creation timestamp
-     * @param dueDateTime - due date
-     * @param repeatUntil - do not recur this event after repeatUntil date(time)
-     */
-    public RecurringEvent(Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, LocalDateTime repeatUntil) {
-        this.precision = precision;
-        this.name = name;
-        this.description = description;
-        this.created = created;
-        this.dueDateTime = dueDateTime;
-        this.repeatUntil = repeatUntil;
-    }
-
-    private final Precision precision;
-    private final String name;
-    private final String description;
-    private final LocalDateTime created;
-    private final LocalDateTime dueDateTime;
-    private final LocalDateTime repeatUntil;
-
+public interface RecurringEvent extends CalendarEvent{
 
     @Override
-    public abstract boolean isDue(LocalDateTime dateTime);
+    boolean isDue(LocalDateTime dateTime);
 
     @Override
-    public abstract boolean  isDue(LocalDate date) ;
+    boolean  isDue(LocalDate date) ;
 
     @Override
-    public Precision getPrecision() {
-        return precision;
-    }
+    Precision getPrecision();
 
     @Override
-    public String getName() {
-        return name;
-    }
+    String getName();
 
     @Override
-    public String getDescription() {
-        return description;
-    }
+    String getDescription();
 
     @Override
-    public LocalDateTime getCreated() {
-        return created;
-    }
+    LocalDateTime getCreated();
 
-    public LocalDateTime getDueDateTime() {
-        return dueDateTime;
-    }
+    LocalDateTime getDueDateTime();
 
-    public LocalDateTime getRepeatUntil() {
-        return repeatUntil;
-    }
+    LocalDateTime getRepeatUntil();
 }
