@@ -91,5 +91,76 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
   </build>
+
+  <profiles>
+    <profile>
+      <id>windows</id>
+      <properties>
+        <platform.version>4.0.1.2</platform.version>
+        <android.sdk.path>c:\entwicklung\jdk\android-sdk</android.sdk.path>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <docs.directory>C:/Temp/apidocs</docs.directory>
+      </properties>
+    </profile>
+    <profile>
+      <id>ci-system</id>
+      <properties>
+        <platform.version>4.0.1.2</platform.version>
+        <android.sdk.path>/usr/java/android-sdk-linux</android.sdk.path>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <docs.directory>/var/www/baracus/apidocs</docs.directory>
+      </properties>
+    </profile>
+    <profile>
+      <id>mac</id>
+      <properties>
+        <platform.version>4.0.1.2</platform.version>
+        <android.sdk.path>${user.home}/Library/Android/sdk</android.sdk.path>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      </properties>
+    </profile>
+    <profile>
+      <id>sign-jar</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+                <configuration>
+                  <executable>C:\Program Files\Git\usr\bin\gpg.exe</executable>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>sonatype</id>
+      <distributionManagement>
+        <!-- Publish versioned releases here -->
+        <repository>
+          <id>sonatype-staging</id>
+          <name>Sonatype Release Staging Repository</name>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+
+        <!-- Publish snapshots here -->
+        <snapshotRepository>
+          <id>sonatype-snapshot</id>
+          <name>Sonatype Snapshot Repository</name>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+  </profiles>
 </project>

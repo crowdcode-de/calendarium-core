@@ -2,6 +2,7 @@ package io.calendarium.core;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Base interface describing an event.
@@ -11,6 +12,8 @@ import java.time.LocalDateTime;
  *
  */
 public interface CalendarEvent {
+
+    UUID getUuid();
 
     enum Precision {
         DATE,
