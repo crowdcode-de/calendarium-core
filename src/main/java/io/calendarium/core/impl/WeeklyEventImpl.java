@@ -1,25 +1,17 @@
 package io.calendarium.core.impl;
 
-import io.calendarium.core.WeeklyEvent;
-
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class WeeklyEventImpl extends RecurringEventImpl implements WeeklyEvent {
-    private final DayOfWeek dayOfWeek;
+public class WeeklyEventImpl extends CalendarEventImpl {
 
     public WeeklyEventImpl(UUID uuid, Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, DayOfWeek dayOfWeek, LocalDateTime repeatUntil) {
-        super(uuid, precision, name, description, created, dueDateTime, repeatUntil);
-        this.dayOfWeek = dayOfWeek;
+        super(uuid, precision, name, description, created, dueDateTime, repeatUntil, EventType.WEEKLY);
     }
 
     public WeeklyEventImpl(UUID uuid, Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, DayOfWeek dayOfWeek) {
-        super(uuid, precision, name, description, created, dueDateTime,  LocalDateTime.MAX);
-        this.dayOfWeek = dayOfWeek;
+        super(uuid, precision, name, description, created, dueDateTime, LocalDateTime.MAX, EventType.WEEKLY);
     }
 
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
-    }
 }

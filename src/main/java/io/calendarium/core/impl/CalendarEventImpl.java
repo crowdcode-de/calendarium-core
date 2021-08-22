@@ -8,20 +8,22 @@ import java.util.UUID;
 /**
  * Base class of recurring events. A recurring event will recur until the repeatUntil date has been reached
  */
-public abstract class RecurringEventImpl implements CalendarEvent {
+public abstract class CalendarEventImpl implements CalendarEvent {
 
 
     /**
      * Constructor. All Recurring events are treated like value objects.
+     *
      * @param uuid
-     * @param precision - the precision (date or date/time)
-     * @param name - the name of the event
+     * @param precision   - the precision (date or date/time)
+     * @param name        - the name of the event
      * @param description - a brief description
-     * @param created - creation timestamp
+     * @param created     - creation timestamp
      * @param dueDateTime - due date
      * @param repeatUntil - do not recur this event after repeatUntil date(time)
+     * @param eventType
      */
-    public RecurringEventImpl(UUID uuid, Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, LocalDateTime repeatUntil) {
+    public CalendarEventImpl(UUID uuid, Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, LocalDateTime repeatUntil, EventType eventType) {
         this.uuid = uuid;
         this.precision = precision;
         this.name = name;
@@ -29,6 +31,7 @@ public abstract class RecurringEventImpl implements CalendarEvent {
         this.created = created;
         this.dueDateTime = dueDateTime;
         this.repeatUntil = repeatUntil;
+        this.eventType = eventType;
     }
 
     private final UUID uuid;
@@ -38,6 +41,7 @@ public abstract class RecurringEventImpl implements CalendarEvent {
     private final LocalDateTime created;
     private final LocalDateTime dueDateTime;
     private final LocalDateTime repeatUntil;
+    private final EventType eventType;
 
 
     @Override
@@ -71,5 +75,10 @@ public abstract class RecurringEventImpl implements CalendarEvent {
     @Override
     public UUID getUuid() {
         return uuid;
+    }
+
+    @Override
+    public EventType getEventType() {
+        return eventType;
     }
 }
