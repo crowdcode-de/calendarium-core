@@ -23,7 +23,9 @@ objects (final properties). The decision logic to determine a due event has been
 
 ```
 final LocalDateTime NOW = LocalDateTime.now();
-final RecurringEvent weeklyEvent = new WeeklyEventImpl(CalendarEvent.Precision.DATE, "Weekly Event", "Test Event Weekly", NOW, NOW, NOW.getDayOfWeek(),nextYear);
+final LocalDateTime firstDayOfYear = LocalDateTime.of(NOW.getYear(), 1, 1, 0, 0);
+final LocalDateTime nextYear = NOW.plus(1, ChronoUnit.YEARS);
+final CalendarEvent twoMonthEvent = new TwoMonthlyEventImpl(UUID.randomUUID(), CalendarEvent.Precision.DATE, "Two Event", "Test Event Weekly", NOW, firstDayOfYear, nextYear);
 Calendarium probe1 = new Calendarium(weeklyEvent);
 ```
 

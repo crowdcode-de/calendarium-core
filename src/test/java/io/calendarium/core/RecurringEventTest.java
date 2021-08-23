@@ -13,7 +13,8 @@ class RecurringEventTest {
     void isDue() {
         assertTrue(dailyEvent.isDue(LocalDate.now()));
         assertTrue(weeklyEvent.isDue(LocalDate.now()));
-        assertTrue(nMonthlyEvent.isDue(LocalDate.now()));
+        assertTrue(fourMonthEvent.isDue(LocalDate.now()));
+        assertTrue(fiveMonthlyEvent.isDue(LocalDate.now()));
         assertTrue(quartelyEvent.isDue(LocalDate.now()));
         assertTrue(halfYearEvent.isDue(LocalDate.now()));
         assertTrue(yearlyEvent.isDue(LocalDate.now()));
@@ -21,7 +22,7 @@ class RecurringEventTest {
         assertTrue(weeklyEvent.isDue(nextWeekly));
 
         assertFalse(yearlyEvent.isDue(someDay));
-        assertFalse(nMonthlyEvent.isDue(someDay));
+        assertFalse(fourMonthEvent.isDue(someDay));
 
         assertTrue(quartelyEvent.isDue(lastQuarter));
 
@@ -49,7 +50,7 @@ class RecurringEventTest {
     void getPrecision() {
         assertTrue(dailyEvent.getPrecision().equals(CalendarEvent.Precision.DATE));
         assertTrue(weeklyEvent.getPrecision().equals(CalendarEvent.Precision.DATE));
-        assertTrue(nMonthlyEvent.getPrecision().equals(CalendarEvent.Precision.DATE));
+        assertTrue(fourMonthEvent.getPrecision().equals(CalendarEvent.Precision.DATE));
         assertTrue(quartelyEvent.getPrecision().equals(CalendarEvent.Precision.DATE));
         assertTrue(halfYearEvent.getPrecision().equals(CalendarEvent.Precision.DATE));
         assertTrue(yearlyEvent.getPrecision().equals(CalendarEvent.Precision.DATE));
@@ -62,7 +63,9 @@ class RecurringEventTest {
     void getName() {
         assertNotNull(dailyEvent.getName());
         assertNotNull(weeklyEvent.getName());
-        assertNotNull(nMonthlyEvent.getName());
+        assertNotNull(fiveMonthlyEvent.getName());
+        assertNotNull(fourMonthEvent.getName());
+        assertNotNull(twoMonthEvent.getName());
         assertNotNull(quartelyEvent.getName());
         assertNotNull(halfYearEvent.getName());
         assertNotNull(yearlyEvent.getName());
@@ -75,7 +78,9 @@ class RecurringEventTest {
     void getDescription() {
         assertNotNull(dailyEvent.getDescription());
         assertNotNull(weeklyEvent.getDescription());
-        assertNotNull(nMonthlyEvent.getDescription());
+        assertNotNull(twoMonthEvent.getDescription());
+        assertNotNull(fourMonthEvent.getDescription());
+        assertNotNull(fiveMonthlyEvent.getDescription());
         assertNotNull(quartelyEvent.getDescription());
         assertNotNull(halfYearEvent.getDescription());
         assertNotNull(yearlyEvent.getDescription());
@@ -86,15 +91,17 @@ class RecurringEventTest {
 
     @Test
     void getCreated() {
-        assertEquals(dailyEvent.getCreated(),NOW);
-        assertEquals(weeklyEvent.getCreated(),NOW);
-        assertEquals(nMonthlyEvent.getCreated(),NOW);
-        assertEquals(quartelyEvent.getCreated(),NOW);
-        assertEquals(halfYearEvent.getCreated(),NOW);
-        assertEquals(yearlyEvent.getCreated(),NOW);
-        assertEquals(twoMonthEvent.getCreated(),NOW);
-        assertEquals(halfYearEventSimp.getCreated(),NOW);
-        assertEquals(singleEvent.getCreated(),NOW);
+        assertEquals(dailyEvent.getCreated(), NOW);
+        assertEquals(weeklyEvent.getCreated(), NOW);
+        assertEquals(twoMonthEvent.getCreated(), NOW);
+        assertEquals(fourMonthEvent.getCreated(), NOW);
+        assertEquals(fiveMonthlyEvent.getCreated(), NOW);
+        assertEquals(quartelyEvent.getCreated(), NOW);
+        assertEquals(halfYearEvent.getCreated(), NOW);
+        assertEquals(yearlyEvent.getCreated(), NOW);
+        assertEquals(twoMonthEvent.getCreated(), NOW);
+        assertEquals(halfYearEventSimp.getCreated(), NOW);
+        assertEquals(singleEvent.getCreated(), NOW);
     }
 
     @Test

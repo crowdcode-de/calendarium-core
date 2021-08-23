@@ -1,30 +1,38 @@
-package io.calendarium.core;
+package io.calendarium.core.strategy;
+
+import io.calendarium.core.CalendarEvent;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public interface NMonthlyEvent extends RecurringEvent{
+public abstract class NMonthlyStrategy implements DueDateStrategy {
 
-    @Override
-    default boolean isDue(LocalDateTime dateTime) {
-        final LocalDateTime dueDateTime = getDueDateTime();
-        int everyNthMonth = getEveryNthMonth();
+    private final CalendarEvent event;
 
-        return isNMonthDue(dateTime, dueDateTime, everyNthMonth, getRepeatUntil());
+    protected NMonthlyStrategy(CalendarEvent event) {
+        this.event = event;
     }
 
-    int getEveryNthMonth();
+    @Override
+    public boolean isDue(LocalDateTime dateTime) {
+        final LocalDateTime dueDateTime = event.getDueDateTime();
+        int everyNthMonth = getEveryNthMonth();
 
-    static boolean isNMonthDue(LocalDateTime dateTime, LocalDateTime dueDateTime, int everyNthMonth, LocalDateTime repeatUntil) {
+        return isNMonthDue(dateTime, dueDateTime, everyNthMonth, event.getRepeatUntil());
+    }
+
+    abstract int getEveryNthMonth();
+
+    public static boolean isNMonthDue(LocalDateTime dateTime, LocalDateTime dueDateTime, int everyNthMonth, LocalDateTime repeatUntil) {
         if (dueDateTime.isAfter(repeatUntil) || dueDateTime.getDayOfMonth() != dateTime.getDayOfMonth()) {
             return false;
         }
 
         LocalDateTime calcDate = dueDateTime;
 
-        while (calcDate.isBefore(dateTime)|| calcDate.equals(dateTime)) {
-            if (calcDate.isEqual(dateTime)){
+        while (calcDate.isBefore(dateTime) || calcDate.equals(dateTime)) {
+            if (calcDate.isEqual(dateTime)) {
                 return true;
 
             }
@@ -52,23 +60,23 @@ public interface NMonthlyEvent extends RecurringEvent{
      *
      */
     @Override
-    default boolean isDue(LocalDate date) {
-        final LocalDate localDate = getDueDateTime().toLocalDate();
+    public boolean isDue(LocalDate date) {
+        final LocalDate localDate = event.getDueDateTime().toLocalDate();
         final int everyNthMonth = getEveryNthMonth();
-        final LocalDateTime repeatUntil = getRepeatUntil();
+        final LocalDateTime repeatUntil = event.getRepeatUntil();
 
         return isNMonthDue(date, localDate, everyNthMonth, repeatUntil);
     }
 
-    static boolean isNMonthDue(LocalDate date, LocalDate localDate, int everyNthMonth, LocalDateTime repeatUntil) {
+    public static boolean isNMonthDue(LocalDate date, LocalDate localDate, int everyNthMonth, LocalDateTime repeatUntil) {
         if (repeatUntil.toLocalDate().isBefore(date) || localDate.getDayOfMonth() != date.getDayOfMonth()) {
             return false;
         }
 
         LocalDate calcDate = localDate;
 
-        while (calcDate.isBefore(date)|| calcDate.equals(date)) {
-            if (calcDate.isEqual(date)){
+        while (calcDate.isBefore(date) || calcDate.equals(date)) {
+            if (calcDate.isEqual(date)) {
                 return true;
             }
             calcDate = calcDate.plus(everyNthMonth, ChronoUnit.MONTHS);

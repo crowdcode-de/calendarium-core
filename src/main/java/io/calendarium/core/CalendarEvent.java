@@ -1,5 +1,7 @@
 package io.calendarium.core;
 
+import io.calendarium.core.strategy.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -20,13 +22,69 @@ public interface CalendarEvent {
         TIME
     }
 
+    enum EventType {
+        SINGULAR,
+        DAILY,
+        WEEKLY,
+        MONTHLY,
+        TWO_MONTHLY,
+        QUARTERLY,
+        FOUR_MONTHLY,
+        FIVE_MONTHLY,
+        HALF_YEARLY,
+        YEARLY
+    }
+
+
+    EventType getEventType();
+
     /**
      * This method is used for second-wise precision checks
      *
      * @param dateTime - the date time to check for
      * @return true, if an event implementation is due to a certain date/time
      */
-    boolean isDue(LocalDateTime dateTime);
+    default boolean isDue(LocalDateTime dateTime) {
+        DueDateStrategy dueDateStrategy;
+        final EventType eventType = getEventType();
+        switch (eventType) {
+            case SINGULAR:
+                dueDateStrategy = new SingularStrategy(this);
+                break;
+            case DAILY:
+                dueDateStrategy = new DailyStrategy(this);
+                break;
+            case WEEKLY:
+                dueDateStrategy = new WeeklyStrategy(this);
+                break;
+            case MONTHLY:
+                dueDateStrategy = new MonthlyStrategy(this);
+                break;
+            case TWO_MONTHLY:
+                dueDateStrategy = new TwoMonthlyStrategy(this);
+                break;
+            case QUARTERLY:
+                dueDateStrategy = new QuartelyStrategy(this);
+                break;
+            case FOUR_MONTHLY:
+                dueDateStrategy = new FourMonthlyStrategy(this);
+                break;
+            case FIVE_MONTHLY:
+                dueDateStrategy = new FiveMonthlyStrategy(this);
+                break;
+            case HALF_YEARLY:
+                dueDateStrategy = new HalfYearStrategy(this);
+                break;
+            case YEARLY:
+                dueDateStrategy = new YearlyStrategy(this);
+                break;
+            default:
+                throw new IllegalArgumentException(eventType.name() + " is a type with no strategy mapped to it");
+        }
+        return dueDateStrategy.isDue(dateTime);
+    }
+
+    ;
 
     /**
      * this method is used for date-precision checks
@@ -34,7 +92,11 @@ public interface CalendarEvent {
      * @param date - the date to check
      * @return true, if an implementing event is due on a certain date
      */
-    boolean isDue(LocalDate date);
+    default boolean isDue(LocalDate date) {
+        return isDue(date.atTime(0, 0, 0));
+    }
+
+    ;
 
     /**
      * @return the selected Precision
@@ -57,38 +119,10 @@ public interface CalendarEvent {
     LocalDateTime getCreated();
 
     /**
-     * @param dueDate - the due date we like to check
-     * @param referenceDate- the reference date to be checked
-     * @param precision - the precision
-     * @return true, if the dueDate has been superceded
+     * @return the due date time.
      */
-    default boolean isDue(LocalDateTime dueDate, LocalDateTime referenceDate, Precision precision){
-        switch (precision){
-            case DATE:
-                return dueDate.isAfter(referenceDate) || dueDate.isEqual(referenceDate);
-            case TIME:
-                return dueDate.toLocalDate().isAfter(referenceDate.toLocalDate())
-                        ||  dueDate.toLocalDate().isEqual(referenceDate.toLocalDate());
-            default:
-                return false;
-        }
-    }
+    LocalDateTime getDueDateTime();
 
+    LocalDateTime getRepeatUntil();
 
-    /**
-     * Convenience method with LocalDate instead of LocalDateTime. See isDue(LocalDateTime) for details.
-     * @param dueDate
-     * @param referenceDate
-     * @param precision
-     * @return
-     */
-    default boolean isDue(LocalDate dueDate, LocalDate referenceDate, Precision precision){
-        switch (precision){
-            case DATE:
-            case TIME:
-                return dueDate.isAfter(referenceDate) || dueDate.isEqual(referenceDate);
-            default:
-                return false;
-        }
-    }
 }

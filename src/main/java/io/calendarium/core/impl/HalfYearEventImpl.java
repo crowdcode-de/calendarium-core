@@ -1,15 +1,14 @@
 package io.calendarium.core.impl;
 
-import io.calendarium.core.HalfYearEvent;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class HalfYearEventImpl extends NMonthlyEventImpl implements HalfYearEvent {
+public class HalfYearEventImpl extends CalendarEventImpl {
     public HalfYearEventImpl(UUID uuid, Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime, LocalDateTime repeatUntil) {
-        super(uuid, precision, name, description, created, dueDateTime, 6, repeatUntil);
+        super(uuid, precision, name, description, created, dueDateTime, repeatUntil, EventType.HALF_YEARLY);
     }
+
     public HalfYearEventImpl(UUID uuid, Precision precision, String name, String description, LocalDateTime created, LocalDateTime dueDateTime) {
-        super(uuid, precision, name, description, created, dueDateTime, 6, LocalDateTime.MAX);
+        super(uuid, precision, name, description, created, dueDateTime, LocalDateTime.MAX, EventType.HALF_YEARLY);
     }
 }
