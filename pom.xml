@@ -18,6 +18,27 @@
     </license>
   </licenses>
 
+  <scm>
+    <url>https://github.com/crowdcode-de/calendarium-core</url>
+    <connection>scm:git:https://github.com/crowdcode-de/calendarium-core.git</connection>
+    <developerConnection>scm:svn:https://github.com/crowdcode-de/calendarium-core.git
+    </developerConnection>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>repo.crowdcode.io</id>
+      <name>repo.crowdcode.io</name>
+      <url>https://repo.crowdcode.io/repository/releases/</url>
+    </repository>
+
+    <snapshotRepository>
+      <id>repo.crowdcode.io</id>
+      <name>repo.crowdcode.io</name>
+      <url>https://repo.crowdcode.io/repository/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <developers>
     <developer>
       <name>Marcus Noerder-Tuitje</name>
