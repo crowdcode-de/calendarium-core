@@ -25,12 +25,8 @@ pipeline {
                         sh "git checkout develop"
                         mvn("com.amashchenko.maven.plugin:gitflow-maven-plugin:release-start " + getVersionDigitToIncrement())
                         pom = readMavenPom file: 'pom.xml'
-                        mvn ("build-helper:parse-version versions:set -DnewVersion=${pom.version} versions:commit -f pom.xml")
-                        sh "git commit -a -m 'Update pom versions for release'"
                         mvn("com.amashchenko.maven.plugin:gitflow-maven-plugin:release-finish")
                         pom = readMavenPom file: 'pom.xml'
-                        mvn ("build-helper:parse-version versions:set -DnewVersion=${pom.version} versions:commit -f pom.xml")
-                        sh "git commit -a -m 'Update for next development version for pom.xml'"
                         sh "git push"
                     }
                 }
