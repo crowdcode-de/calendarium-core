@@ -6,7 +6,7 @@
 
   <groupId>io.calendarium</groupId>
   <artifactId>calendarium-core</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
 
   <name>calendarium-core</name>
   <url>http://github.com/crowdcode-de/calendarium</url>
