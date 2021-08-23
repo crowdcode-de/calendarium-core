@@ -18,7 +18,7 @@ pipeline {
                         pom = readMavenPom file: 'pom.xml'
                         final newVersion = pom.version
 
-                        if (!orginalVersion.equals(newVersion) || !orginalAarVersion.equals(newAarVersion)) {
+                        if (!orginalVersion.equals(newVersion)) {
                             sh "mkdir -p target && touch target/DO_NOT_BUILD"
                             env.DO_NOT_BUILD=true
                         } else {
