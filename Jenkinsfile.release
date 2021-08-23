@@ -1,0 +1,76 @@
+pipeline {
+    agent any
+    options { timestamps() }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                withCredentials(
+                        [usernamePassword(credentialsId: 'gorefest',
+                                usernameVariable: 'gitUser',
+                                passwordVariable: 'gitPwd'
+                        )]) {
+                    sh "rm -rf target"
+                    sh "git clone https://${gitUser}:${gitPwd}@${gitUrl.split('://')[1]} target"
+                }
+            }
+        }
+
+        stage('Build release') {
+            steps{
+                script {
+                    dir( path: 'target') {
+                        sh "git config user.email 'build@crowdcode.io'"
+                        sh "git config user.name 'Jenkins Release Job'"
+                        sh "git checkout develop"
+                        mvn("com.amashchenko.maven.plugin:gitflow-maven-plugin:release-start " + getVersionDigitToIncrement())
+                        pom = readMavenPom file: 'pom.xml'
+                        mvn ("build-helper:parse-version versions:set -DnewVersion=${pom.version} versions:commit -f pom.xml")
+                        sh "git commit -a -m 'Update pom versions for release'"
+                        mvn("com.amashchenko.maven.plugin:gitflow-maven-plugin:release-finish")
+                        pom = readMavenPom file: 'pom.xml'
+                        mvn ("build-helper:parse-version versions:set -DnewVersion=${pom.version} versions:commit -f pom.xml")
+                        sh "git commit -a -m 'Update for next development version for pom.xml'"
+                        sh "git push"
+                    }
+                }
+            }
+        }
+        stage('trigger jobs') {
+            steps {
+               build job: 'calendarium-core', wait: false
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                dir( path: 'target') {
+                    sh "git checkout master"
+                    pom = readMavenPom file: 'pom.xml'
+                    addHtmlBadge(html: "<br>release version: ${pom.version}")
+                }
+            }
+  		}
+    }
+}
+
+def getVersionDigitToIncrement() {
+    if(params.versionDigitToIncrement == "major") {
+        return "-DversionDigitToIncrement=0";
+    } else if(params.versionDigitToIncrement == "minor") {
+        return "-DversionDigitToIncrement=1";
+    } else {
+        return "-DversionDigitToIncrement=2";
+    }
+}
+
+def mvn(param) {
+  withMaven(
+      // globalMavenSettingsConfig: 'GlobalSettingsNexus',
+      options: [openTasksPublisher(disabled: true)],
+      mavenOpts: '-Xmx1536m -Xms512m',
+      maven: 'maven-3.6.3') {
+	    sh "mvn -U -B -e ${param}"
+      }
+}
