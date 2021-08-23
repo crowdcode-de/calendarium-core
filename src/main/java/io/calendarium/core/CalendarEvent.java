@@ -8,10 +8,11 @@ import java.util.UUID;
 
 /**
  * Base interface describing an event.
- *
+ * <p>
  * An implementation both must be capable of checking against raw dates (calendar) or against time (schedule)
  * Therefore you should be able to set the precision
  *
+ * @since 1.0.0
  */
 public interface CalendarEvent {
 
@@ -45,7 +46,7 @@ public interface CalendarEvent {
      * @return true, if an event implementation is due to a certain date/time
      */
     default boolean isDue(LocalDateTime dateTime) {
-        DueDateStrategy dueDateStrategy;
+        final DueDateStrategy dueDateStrategy;
         final EventType eventType = getEventType();
         switch (eventType) {
             case SINGULAR:
@@ -123,6 +124,9 @@ public interface CalendarEvent {
      */
     LocalDateTime getDueDateTime();
 
+    /**
+     * @return the repeating datetime. a singular event should set this equals to the due date time (@see {@link io.calendarium.core.impl.SingularCalendarEventImpl})
+     */
     LocalDateTime getRepeatUntil();
 
 }

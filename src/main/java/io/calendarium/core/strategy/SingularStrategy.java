@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * Singular event interface. This is a single event with no recurring
+ * Singular event handling strategy. This handles a single event with no recurring.
+ *
+ * @since 1.0.0
  */
 public class SingularStrategy implements DueDateStrategy {
 

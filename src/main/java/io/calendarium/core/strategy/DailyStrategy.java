@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * A daily event interface
+ * A daily strategy, which implements a daily event handling
+ *
+ * @since 1.0.0
  */
 public class DailyStrategy implements DueDateStrategy {
 

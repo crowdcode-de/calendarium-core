@@ -6,6 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * base class for month based recurring events providing basic functions for due date handling
+ *
+ * @since 1.0.0
+ */
 public abstract class NMonthlyStrategy implements DueDateStrategy {
 
     private final CalendarEvent event;

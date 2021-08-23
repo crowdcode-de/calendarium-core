@@ -7,7 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * Weekly event interface
+ * Weekly event handling strategy
+ *
+ * @since 1.0.0
  */
 public class WeeklyStrategy implements DueDateStrategy {
 
