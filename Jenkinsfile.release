@@ -36,11 +36,11 @@ pipeline {
                 }
             }
         }
-        stage('trigger jobs') {
-            steps {
-               build job: 'calendarium-core', wait: false
-            }
-        }
+#        stage('trigger jobs') {
+#            steps {
+#               build job: 'calendarium-core', wait: false
+#            }
+#        }
     }
     post {
         always {
