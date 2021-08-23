@@ -4,7 +4,7 @@ pipeline {
         stage('Prepare') {
             steps {
                 withCredentials(
-                        [usernamePassword(credentialsId: 'CSchemmy',
+                        [usernamePassword(credentialsId: 'gorefest',
                                 usernameVariable: 'gitUser',
                                 passwordVariable: 'gitPwd'
                         )]) {
